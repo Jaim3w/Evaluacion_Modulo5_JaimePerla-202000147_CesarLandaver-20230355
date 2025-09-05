@@ -34,7 +34,7 @@ const Login = ({ navigation }) => {
       console.log(' Usuario ha iniciado sesión:', user.uid);
       
       // Aquí puedes navegar a la pantalla principal de tu app, por ejemplo 'Home'
-      // navigation.navigate('Home'); 
+       navigation.navigate('Home'); 
 
       // Por ahora, solo mostraremos una alerta de éxito.
        Alert.alert('Inicio de Sesión Exitoso', `¡Bienvenido de nuevo!`);
