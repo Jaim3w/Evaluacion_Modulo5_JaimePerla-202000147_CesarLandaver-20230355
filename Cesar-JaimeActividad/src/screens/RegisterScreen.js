@@ -38,12 +38,10 @@ const Register = ({ navigation }) => {
 
     setLoading(true);
     try {
-      // Crear usuario en Firebase Auth
       const userCredential = await createUserWithEmailAndPassword(auth, correo.trim(), contrasena);
       const user = userCredential.user;
       console.log('✅ Usuario creado en Authentication:', user.uid);
 
-      // Guardar info adicional en Firestore
       await setDoc(doc(database, 'usuarios', user.uid), {
         nombre,
         correo: correo.trim(),
@@ -57,7 +55,6 @@ const Register = ({ navigation }) => {
         { text: 'Ok', onPress: goToLogin },
       ]);
 
-      // Limpiar formulario
       setUsuario({
         nombre: '',
         correo: '',
@@ -92,75 +89,46 @@ const Register = ({ navigation }) => {
     <ScrollView contentContainerStyle={styles.container}>
       <Text style={styles.title}>Registro de Usuario</Text>
 
-      <View style={styles.inputContainer}>
-        <Text style={styles.label}>Nombre Completo:</Text>
-        <TextInput
-          style={styles.input}
-          placeholder="John Doe"
-          onChangeText={(value) => handleChangeText('nombre', value)}
-          value={usuario.nombre}
-        />
+      <View style={styles.formCard}>
+        {['nombre', 'correo', 'contrasena', 'tituloUniversitario', 'anoGraduacion'].map((field, index) => (
+          <View key={index} style={styles.inputContainer}>
+            <Text style={styles.label}>
+              {field === 'nombre' ? 'Nombre Completo:' : 
+               field === 'correo' ? 'Correo Electrónico:' :
+               field === 'contrasena' ? 'Contraseña:' :
+               field === 'tituloUniversitario' ? 'Título Universitario:' :
+               'Año de Graduación:'}
+            </Text>
+            <TextInput
+              style={styles.input}
+              placeholder={
+                field === 'nombre' ? 'John Doe' :
+                field === 'correo' ? 'correo@ejemplo.com' :
+                field === 'contrasena' ? 'Mínimo 6 caracteres' :
+                field === 'tituloUniversitario' ? 'Ej: Ing. en Sistemas' :
+                '2024'
+              }
+              onChangeText={(value) => handleChangeText(field, value)}
+              value={usuario[field]}
+              keyboardType={field === 'correo' ? 'email-address' : field === 'anoGraduacion' ? 'numeric' : 'default'}
+              autoCapitalize={field === 'correo' ? 'none' : 'sentences'}
+              secureTextEntry={field === 'contrasena'}
+            />
+          </View>
+        ))}
+
+        <TouchableOpacity
+          style={[styles.button, loading && { opacity: 0.6 }]}
+          onPress={registrarUsuario}
+          disabled={loading}
+        >
+          {loading ? <ActivityIndicator color="#fff" /> : <Text style={styles.buttonText}>Registrarme</Text>}
+        </TouchableOpacity>
+
+        <TouchableOpacity style={[styles.button, styles.secondaryButton]} onPress={goToLogin}>
+          <Text style={[styles.buttonText, styles.secondaryButtonText]}>Ya tengo una cuenta</Text>
+        </TouchableOpacity>
       </View>
-
-      <View style={styles.inputContainer}>
-        <Text style={styles.label}>Correo Electrónico:</Text>
-        <TextInput
-          style={styles.input}
-          placeholder="correo@ejemplo.com"
-          onChangeText={(value) => handleChangeText('correo', value)}
-          value={usuario.correo}
-          keyboardType="email-address"
-          autoCapitalize="none"
-        />
-      </View>
-
-      <View style={styles.inputContainer}>
-        <Text style={styles.label}>Contraseña:</Text>
-        <TextInput
-          style={styles.input}
-          placeholder="Mínimo 6 caracteres"
-          onChangeText={(value) => handleChangeText('contrasena', value)}
-          value={usuario.contrasena}
-          secureTextEntry
-        />
-      </View>
-
-      <View style={styles.inputContainer}>
-        <Text style={styles.label}>Título Universitario:</Text>
-        <TextInput
-          style={styles.input}
-          placeholder="Ej: Ing. en Sistemas"
-          onChangeText={(value) => handleChangeText('tituloUniversitario', value)}
-          value={usuario.tituloUniversitario}
-        />
-      </View>
-
-      <View style={styles.inputContainer}>
-        <Text style={styles.label}>Año de Graduación:</Text>
-        <TextInput
-          style={styles.input}
-          placeholder="2024"
-          onChangeText={(value) => handleChangeText('anoGraduacion', value)}
-          value={usuario.anoGraduacion}
-          keyboardType="numeric"
-        />
-      </View>
-
-      <TouchableOpacity
-        style={[styles.button, loading && { opacity: 0.6 }]}
-        onPress={registrarUsuario}
-        disabled={loading}
-      >
-        {loading ? (
-          <ActivityIndicator color="#fff" />
-        ) : (
-          <Text style={styles.buttonText}>Registrarme</Text>
-        )}
-      </TouchableOpacity>
-
-      <TouchableOpacity style={[styles.button, styles.secondaryButton]} onPress={goToLogin}>
-        <Text style={[styles.buttonText, styles.secondaryButtonText]}>Ya tengo una cuenta</Text>
-      </TouchableOpacity>
     </ScrollView>
   );
 };
@@ -170,63 +138,74 @@ export default Register;
 const styles = StyleSheet.create({
   container: {
     flexGrow: 1,
-    backgroundColor: '#f0f4f7',
+    backgroundColor: '#e0f7fa',
     alignItems: 'center',
     justifyContent: 'center',
     padding: 20,
   },
+  formCard: {
+    width: '100%',
+    backgroundColor: '#ffffffee',
+    borderRadius: 25,
+    padding: 25,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 8 },
+    shadowOpacity: 0.15,
+    shadowRadius: 10,
+    elevation: 10,
+  },
   title: {
-    fontSize: 28,
+    fontSize: 30,
     fontWeight: 'bold',
     marginBottom: 25,
+    color: '#00796b',
     textAlign: 'center',
-    color: '#333',
+  },
+  inputContainer: {
+    marginBottom: 18,
+  },
+  label: {
+    fontSize: 15,
+    marginBottom: 6,
+    color: '#555',
+    fontWeight: '600',
   },
   input: {
     height: 50,
-    borderColor: '#ccc',
-    borderWidth: 1,
-    borderRadius: 8,
+    borderRadius: 15,
     paddingLeft: 15,
-    backgroundColor: '#fff',
     fontSize: 16,
+    backgroundColor: '#f0f4f8',
+    shadowColor: '#00796b',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.2,
+    shadowRadius: 4,
+    elevation: 4,
   },
   button: {
-    backgroundColor: '#007bff',
+    backgroundColor: '#00796b',
     paddingVertical: 15,
-    borderRadius: 8,
-    marginTop: 20,
-    width: '100%',
+    borderRadius: 50,
+    marginTop: 15,
     alignItems: 'center',
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.25,
-    shadowRadius: 3.84,
-    elevation: 5,
+    shadowColor: '#00796b',
+    shadowOffset: { width: 0, height: 5 },
+    shadowOpacity: 0.4,
+    shadowRadius: 6,
+    elevation: 6,
   },
   buttonText: {
-    color: 'white',
+    color: '#fff',
     fontWeight: 'bold',
-    fontSize: 18,
-    textAlign: 'center',
+    fontSize: 17,
   },
   secondaryButton: {
     backgroundColor: 'transparent',
-    borderWidth: 1,
-    borderColor: '#007bff',
-    elevation: 0,
+    borderWidth: 2,
+    borderColor: '#00796b',
+    marginTop: 12,
   },
   secondaryButtonText: {
-    color: '#007bff',
-  },
-  label: {
-    fontSize: 16,
-    marginBottom: 8,
-    color: '#555',
-    alignSelf: 'flex-start',
-  },
-  inputContainer: {
-    width: '100%',
-    marginBottom: 16,
+    color: '#00796b',
   },
 });
