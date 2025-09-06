@@ -85,6 +85,6 @@ Este proyecto fue desarrollado en **React Native con Expo**, con el objetivo de 
 - `npm run web` → Ejecuta la app en el navegador como aplicación web.
 
 ## Link del video
-https://teams.microsoft.com/l/meetingrecap?driveId=b%21unyA37xvok2PO1KqrI17iojouMClu3RBuz2-FhfKjYn4_PjwphjFTJOOd_qZy2sW&driveItemId=01OETE654J33RFYKVLO5BZ2LMT4ZJIJ7D6&sitePath=https%3A%2F%2Fitricaldone-my.sharepoint.com%2F%3Av%3A%2Fg%2Fpersonal%2F20230355_ricaldone_edu_sv%2FEYne4lwqq3dDnS2T5lKE_H4BvHVK_JhpLS33SBwALXnTzw&fileUrl=https%3A%2F%2Fitricaldone-my.sharepoint.com%2Fpersonal%2F20230355_ricaldone_edu_sv%2FDocuments%2FGrabaciones%2FLlamada%2520con%2520Perla%2520Romero-20250905_150306-Grabaci%25C3%25B3n%2520de%2520la%2520reuni%25C3%25B3n.mp4%3Fweb%3D1&threadId=19%3A27c82b74-255c-4181-b7e7-8fcf4449628b_f7b01337-b38b-40f6-ac84-98f3f0be7fb6%40unq.gbl.spaces&callId=2ce18030-0623-4f84-9b1e-74948edc9aea&threadType=OneOnOneChat&meetingType=Unknown&subType=RecapSharingLink_RecapCore
+https://youtu.be/cs9W6Pw9qqE
 
 
